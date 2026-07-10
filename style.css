@@ -1,0 +1,142 @@
+/* style.css */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f6f9ff;
+}
+
+.header{
+    position:sticky;
+    top:0;
+    width:100%;
+    z-index:1000;
+    backdrop-filter:blur(14px);
+    background:rgba(255,255,255,0.85);
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.navbar{
+    max-width:1200px;
+    margin:auto;
+    padding:18px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#2563eb;
+    font-size:1.6rem;
+    font-weight:800;
+}
+
+.logo i{
+    font-size:1.8rem;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:35px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#374151;
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#2563eb;
+}
+
+.nav-buttons{
+    display:flex;
+    gap:12px;
+}
+
+.login-btn,
+.signup-btn{
+    border:none;
+    padding:12px 24px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:.95rem;
+    font-weight:600;
+    transition:.3s;
+}
+
+.login-btn{
+    background:transparent;
+    border:2px solid #2563eb;
+    color:#2563eb;
+}
+
+.login-btn:hover{
+    background:#2563eb;
+    color:#fff;
+}
+
+.signup-btn{
+    background:#2563eb;
+    color:#fff;
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+}
+
+.signup-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+
+.menu-btn{
+    display:none;
+    border:none;
+    background:none;
+    font-size:1.6rem;
+    cursor:pointer;
+    color:#2563eb;
+}
+
+@media(max-width:900px){
+
+    .menu-btn{
+        display:block;
+    }
+
+    .nav-buttons{
+        display:none;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:100%;
+        left:0;
+        width:100%;
+        background:#fff;
+        flex-direction:column;
+        gap:25px;
+        text-align:center;
+        padding:30px;
+        display:none;
+        box-shadow:0 15px 30px rgba(0,0,0,.08);
+    }
+
+    .nav-links.active{
+        display:flex;
+    }
+}
