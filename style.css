@@ -661,6 +661,96 @@ body{
     transform: translateY(-10px);
     box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 } 
+/* ===========================
+   How It Works Section
+=========================== */
+
+.how-it-works{
+    max-width:1200px;
+    margin:0 auto;
+    padding:100px 30px;
+}
+
+.how-container{
+    width:100%;
+}
+
+.how-heading{
+    text-align:center;
+    max-width:700px;
+    margin:0 auto 60px;
+}
+
+.how-heading h2{
+    font-size:2.8rem;
+    color:#111827;
+    margin-bottom:20px;
+    font-weight:700;
+}
+
+.how-heading p{
+    font-size:1.1rem;
+    color:#6b7280;
+    line-height:1.8;
+}
+
+.steps-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+}
+
+.step-card{
+    position:relative;
+    background:#ffffff;
+    padding:35px 25px 30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:all .3s ease;
+    overflow:hidden;
+}
+
+.step-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 18px 40px rgba(0,0,0,.12);
+}
+
+.step-number{
+    position:absolute;
+    top:20px;
+    right:20px;
+    font-size:3rem;
+    font-weight:800;
+    color:#dbeafe;
+    line-height:1;
+}
+
+.step-icon{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#2563eb;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:1.8rem;
+    margin-bottom:25px;
+}
+
+.step-card h3{
+    font-size:1.35rem;
+    color:#111827;
+    margin-bottom:15px;
+}
+
+.step-card p{
+    color:#6b7280;
+    line-height:1.7;
+    font-size:1rem;
+}
 /* ==========================================
    Responsive Design
 ========================================== */
@@ -675,6 +765,13 @@ body{
     .features-grid{
         grid-template-columns: repeat(2, 1fr);
     }
+    .how-it-works{
+    padding:80px 30px;
+}
+
+.steps-grid{
+    grid-template-columns:repeat(2,1fr);
+}
 
 }
 
@@ -700,6 +797,24 @@ body{
     .features-heading p{
         font-size:1rem;
     }
+    /* How It Works */
+
+    .how-it-works{
+        padding:70px 20px;
+    }
+
+    .how-heading h2{
+        font-size:2.2rem;
+    }
+
+    .how-heading p{
+        font-size:1rem;
+    }
+
+    .steps-grid{
+        grid-template-columns:1fr;
+    }
+
 
 }
 /* Small Phones */
@@ -710,6 +825,15 @@ body{
     }
 
     .features-heading h2{
+        font-size:1.9rem;
+    } 
+    /* How It Works */
+
+    .how-it-works{
+        padding:60px 16px;
+    }
+
+    .how-heading h2{
         font-size:1.9rem;
     }
 
