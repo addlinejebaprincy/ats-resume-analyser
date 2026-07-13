@@ -772,16 +772,6 @@ body{
 .steps-grid{
     grid-template-columns:repeat(2,1fr);
 }
-Testimonials
-
-.testimonials{
-    padding:80px 30px;
-}
-
-.testimonials-grid{
-    grid-template-columns:repeat(2,1fr);
-}
-
 }
 
     /* Mobile */
@@ -823,25 +813,6 @@ Testimonials
     .steps-grid{
         grid-template-columns:1fr;
     }
-    Testimonials
-
-.testimonials{
-    padding:70px 20px;
-}
-
-.testimonials-grid{
-    grid-template-columns:1fr;
-}
-
-.testimonials .section-header h2{
-    font-size:2.2rem;
-}
-
-.testimonials .section-header p{
-    font-size:1rem;
-}
-
-
 }
 /* Small Phones */
 @media (max-width:480px){
@@ -862,29 +833,6 @@ Testimonials
     .how-heading h2{
         font-size:1.9rem;
     }
-    Testimonials
-
-.testimonials{
-    padding:60px 16px;
-}
-
-.testimonials .section-header h2{
-    font-size:1.9rem;
-}
-
-.testimonial-card{
-    padding:25px 20px;
-}
-
-.user-info{
-    gap:12px;
-}
-
-.user-info img{
-    width:55px;
-    height:55px;
-}
-
 }
 /* ==========================================
    Testimonials
@@ -985,7 +933,57 @@ Testimonials
     font-size: 0.9rem;
 } 
 
+/* Testimonial responsive overrides must follow the base testimonial styles. */
+@media (max-width:992px){
+    .testimonials{
+        padding:80px 30px;
+    }
 
+    .testimonials-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media (max-width:768px){
+    .testimonials{
+        padding:70px 20px;
+    }
+
+    .testimonials-grid{
+        grid-template-columns:1fr;
+    }
+
+    .testimonials .section-header h2{
+        font-size:2.2rem;
+    }
+
+    .testimonials .section-header p{
+        font-size:1rem;
+    }
+}
+
+@media (max-width:480px){
+    .testimonials{
+        padding:60px 16px;
+    }
+
+    .testimonials .section-header h2{
+        font-size:1.9rem;
+    }
+
+    .testimonial-card{
+        padding:25px 20px;
+    }
+
+    .user-info{
+        gap:12px;
+    }
+
+    .user-info img{
+        width:55px;
+        height:55px;
+    }
+}
 
 
 
