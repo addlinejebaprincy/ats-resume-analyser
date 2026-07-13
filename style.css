@@ -772,6 +772,15 @@ body{
 .steps-grid{
     grid-template-columns:repeat(2,1fr);
 }
+Testimonials
+
+.testimonials{
+    padding:80px 30px;
+}
+
+.testimonials-grid{
+    grid-template-columns:repeat(2,1fr);
+}
 
 }
 
@@ -814,6 +823,23 @@ body{
     .steps-grid{
         grid-template-columns:1fr;
     }
+    Testimonials
+
+.testimonials{
+    padding:70px 20px;
+}
+
+.testimonials-grid{
+    grid-template-columns:1fr;
+}
+
+.testimonials .section-header h2{
+    font-size:2.2rem;
+}
+
+.testimonials .section-header p{
+    font-size:1rem;
+}
 
 
 }
@@ -836,8 +862,129 @@ body{
     .how-heading h2{
         font-size:1.9rem;
     }
+    Testimonials
+
+.testimonials{
+    padding:60px 16px;
+}
+
+.testimonials .section-header h2{
+    font-size:1.9rem;
+}
+
+.testimonial-card{
+    padding:25px 20px;
+}
+
+.user-info{
+    gap:12px;
+}
+
+.user-info img{
+    width:55px;
+    height:55px;
+}
 
 }
+/* ==========================================
+   Testimonials
+========================================== */
+
+.testimonials{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 30px;
+}
+.testimonials .section-header{
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+}
+
+.testimonials .section-tag{
+    display: inline-block;
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: .9rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.testimonials .section-header h2{
+    font-size: 2.8rem;
+    color: #111827;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.testimonials .section-header h2 span{
+    color: #2563eb;
+}
+
+.testimonials .section-header p{
+    font-size: 1.1rem;
+    color: #6b7280;
+    line-height: 1.8;
+}
+
+.testimonials-grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+}
+
+.testimonial-card{
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 35px 30px;
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+.stars{
+    color: #fbbf24;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.review{
+    color: #6b7280;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info h4{
+    font-size: 1rem;
+    color: #111827;
+    margin-bottom: 5px;
+}
+
+.user-info span{
+    color: #6b7280;
+    font-size: 0.9rem;
+} 
+
 
 
 
