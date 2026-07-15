@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
@@ -61,10 +61,10 @@
             <p class="hero-description">
                 Check your resume against ATS systems, identify missing keywords, and receive clear suggestions to improve it.
             </p>
-            <a href="#" class="hero-button">
+         <a href="{{ url_for('upload_page') }}" class="hero-button">
                 Analyze My Resume
                 <i class="fa-solid fa-arrow-right"></i>
-            </a>
+        </a>   
         </div>
 
         <div class="hero-visual" aria-hidden="true">
@@ -351,7 +351,7 @@
             </p>
 
             <div class="user-info">
-                <img src="images/user-1.jpg" alt="Sarah Johnson">
+                <img src="{{ url_for('static', filename='images/user-1.jpg') }}" alt="Sarah Johnson">
 
                 <div>
                     <h4>Sarah Johnson</h4>
@@ -377,7 +377,7 @@
             </p>
 
             <div class="user-info">
-                <img src="images/user-2.jpg" alt="David Lee">
+                <img src="{{ url_for('static', filename='images/user-2.jpg') }}" alt="David Lee">
 
                 <div>
                     <h4>David Lee</h4>
@@ -403,7 +403,7 @@
             </p>
 
             <div class="user-info">
-                <img src="images/user-3.jpg" alt="Emily Brown">
+                <img src="{{ url_for('static', filename='images/user-3.jpg') }}" alt="Emily Brown">
 
                 <div>
                     <h4>Emily Brown</h4>
@@ -752,7 +752,7 @@
 </footer>
 </main>
 
-<script src="script.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>
