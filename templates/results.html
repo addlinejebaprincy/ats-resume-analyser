@@ -9,6 +9,13 @@
     >
 
     <title>Resume Analysis Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
 
     <link
         rel="stylesheet"
@@ -74,41 +81,59 @@
         <section class="analysis-section">
 
             <div class="results-score-card">
-                <p class="score-label">ATS Score</p>
+                <p class="score-label">ATS Readiness Score</p>
 
                 <div class="results-score-circle">
-                    <span>--</span>
+                    <span>{{ analysis.score }}</span>
                     <small>/100</small>
                 </div>
 
                 <p class="score-message">
-                    Your score will appear after analysis.
+                    ATS readiness based on {{ analysis.word_count }} extracted words.
                 </p>
             </div>
+            <div class="analysis-card">
+    <h3>Strengths</h3>
+
+    {% if analysis.strengths %}
+        <ul class="analysis-list">
+            {% for strength in analysis.strengths %}
+                <li>{{ strength }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No strengths were detected by the current checks.</p>
+    {% endif %}
+</div>
+
+            
+           <div class="analysis-card">
+    <h3>Areas to Improve</h3>
+
+    {% if analysis.improvements %}
+        <ul class="analysis-list">
+            {% for improvement in analysis.improvements %}
+                <li>{{ improvement }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No major improvements were detected.</p>
+    {% endif %}
+</div>
 
             <div class="analysis-card">
-                <h3>Strengths</h3>
+    <h3>Missing Sections</h3>
 
-                <p>
-                    Resume strengths will appear here.
-                </p>
-            </div>
-
-            <div class="analysis-card">
-                <h3>Areas to Improve</h3>
-
-                <p>
-                    Resume weaknesses and improvements will appear here.
-                </p>
-            </div>
-
-            <div class="analysis-card">
-                <h3>Missing Keywords</h3>
-
-                <p>
-                    Important missing keywords will appear here.
-                </p>
-            </div>
+    {% if analysis.missing_sections %}
+        <ul class="analysis-list">
+            {% for section in analysis.missing_sections %}
+                <li>{{ section }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>All essential resume sections were detected.</p>
+    {% endif %}
+</div>
 
             <div class="analysis-card">
                 <h3>AI Suggestions</h3>
