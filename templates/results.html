@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Resume Analysis Results</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body class="results-body">
+
+    <header class="results-header">
+        <div>
+            <h1>Resume Analysis</h1>
+            <p>Your resume preview and ATS insights</p>
+        </div>
+
+        <a
+            href="{{ url_for('upload_page') }}"
+            class="analyze-another-button"
+        >
+            Analyze Another Resume
+        </a>
+    </header>
+
+    <main class="results-container">
+
+        <!-- LEFT SIDE: ORIGINAL PDF -->
+        <section class="resume-preview-section">
+
+            <div class="section-heading">
+                <h2>Resume Preview</h2>
+                <span>Uploaded Resume</span>
+            </div>
+
+            <div class="pdf-preview-container">
+
+    {% if file_extension == "pdf" %}
+
+        <iframe
+            src="{{ file_url }}"
+            title="Uploaded resume preview"
+            class="pdf-preview"
+        ></iframe>
+
+    {% elif file_extension == "docx" %}
+
+        <div class="docx-preview-message">
+            <h3>DOCX Resume Uploaded Successfully</h3>
+
+            <p>
+                Your resume has been uploaded successfully.
+                The text has been extracted for ATS analysis.
+                A preview for DOCX files will be added soon.
+            </p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+        </section>
+
+        <!-- RIGHT SIDE: ANALYSIS -->
+        <section class="analysis-section">
+
+            <div class="results-score-card">
+                <p class="score-label">ATS Score</p>
+
+                <div class="results-score-circle">
+                    <span>--</span>
+                    <small>/100</small>
+                </div>
+
+                <p class="score-message">
+                    Your score will appear after analysis.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Strengths</h3>
+
+                <p>
+                    Resume strengths will appear here.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Areas to Improve</h3>
+
+                <p>
+                    Resume weaknesses and improvements will appear here.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Missing Keywords</h3>
+
+                <p>
+                    Important missing keywords will appear here.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>AI Suggestions</h3>
+
+                <p>
+                    Personalized AI suggestions will appear here.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

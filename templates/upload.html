@@ -2,29 +2,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Resume | ResumeAI</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Upload Resume | ResumeAI</title> 
+
+    <!-- Main stylesheet -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 </head>
-<body>
 
-    <h1>Upload Your Resume</h1>
+<body class="upload-body">
 
-    <form action="{{ url_for('upload_resume') }}"
-          method="POST"
-          enctype="multipart/form-data">
+    <!-- ResumeAI navbar -->
+    <header class="header">
+        <nav class="navbar">
 
-        <label for="resume">Choose a PDF or DOCX file:</label>
+            <a href="{{ url_for('home') }}" class="logo">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <span>ResumeAI</span>
+            </a>
 
-        <input
-            type="file"
-            id="resume"
-            name="resume"
-            accept=".pdf,.docx"
-            required
-        >
+            <a
+                href="{{ url_for('home') }}"
+                class="upload-back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Home
+            </a>
 
-        <button type="submit">Upload Resume</button>
-    </form>
+        </nav>
+    </header>
+
+    <!-- Main upload area -->
+    <main class="upload-page">
+
+        <section class="upload-introduction">
+
+            <span class="upload-label">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                AI-powered resume analysis
+            </span>
+
+            <h1>Upload your resume</h1>
+
+            <p>
+                Upload your PDF or DOCX resume to receive a detailed ATS score,
+                keyword analysis, strengths, weaknesses, and personalized
+                AI suggestions.
+            </p>
+
+        </section>
+
+        <section class="upload-card">
+
+            <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+
+            <h2>Choose your resume</h2>
+
+            <p class="upload-card-description">
+                Select your resume in  PDF or DOCX format from your device. Your original 
+                document will be used for analysis.
+            </p>
+
+            <form
+                action="{{ url_for('upload_resume') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                class="resume-upload-form"
+            >
+
+                <label for="resume" class="file-upload-area">
+
+                    <i class="fa-regular fa-file-pdf"></i>
+
+                    <span class="file-upload-title">
+                        Click to select your resume
+                    </span>
+
+                    <span class="file-upload-note">
+                        PDF or DOCX format only
+                    </span>
+
+                    <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        accept=".pdf,.docx"
+                        required
+                    >
+
+                </label>
+
+                <button type="submit" class="upload-submit-button">
+                    Analyze My Resume
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+            <div class="upload-privacy-note">
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <p>
+                    Your resume is used only for analysis and is not shown
+                    publicly.
+                </p>
+            </div>
+
+        </section>
+
+        <section class="upload-benefits">
+
+            <article class="upload-benefit">
+                <i class="fa-solid fa-chart-simple"></i>
+
+                <div>
+                    <h3>ATS Score</h3>
+                    <p>Understand how compatible your resume is with ATS systems.</p>
+                </div>
+            </article>
+
+            <article class="upload-benefit">
+                <i class="fa-solid fa-key"></i>
+
+                <div>
+                    <h3>Keyword Insights</h3>
+                    <p>Discover important skills and keywords you may be missing.</p>
+                </div>
+            </article>
+
+            <article class="upload-benefit">
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <div>
+                    <h3>AI Suggestions</h3>
+                    <p>Receive clear and practical recommendations for improvement.</p>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
 
 </body>
 </html>
