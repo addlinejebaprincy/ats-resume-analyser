@@ -41,99 +41,197 @@
 
     <main class="results-container">
 
-        <!-- LEFT SIDE: ORIGINAL PDF -->
-        <section class="resume-preview-section">
+        <div class="results-top-layout">
 
-            <div class="section-heading">
-                <h2>Resume Preview</h2>
-                <span>Uploaded Resume</span>
-            </div>
+            <!-- Summary comes first for the required tablet/mobile order. -->
+            <section
+                class="analysis-summary-section"
+                aria-label="Resume analysis summary"
+            >
 
-            <div class="pdf-preview-container">
+                <div class="results-score-card">
+                    <p class="score-label">ATS Readiness Score</p>
 
-    {% if file_extension == "pdf" %}
+                    <div class="results-score-circle">
+                        <span>{{ analysis.score }}</span>
+                        <small>/100</small>
+                    </div>
 
-        <iframe
-            src="{{ file_url }}"
-            title="Uploaded resume preview"
-            class="pdf-preview"
-        ></iframe>
-
-    {% elif file_extension == "docx" %}
-
-        <div class="docx-preview-message">
-            <h3>DOCX Resume Uploaded Successfully</h3>
-
-            <p>
-                Your resume has been uploaded successfully.
-                The text has been extracted for ATS analysis.
-                A preview for DOCX files will be added soon.
-            </p>
-        </div>
-
-    {% endif %}
-
-</div>
-
-        </section>
-
-        <!-- RIGHT SIDE: ANALYSIS -->
-        <section class="analysis-section">
-
-            <div class="results-score-card">
-                <p class="score-label">ATS Readiness Score</p>
-
-                <div class="results-score-circle">
-                    <span>{{ analysis.score }}</span>
-                    <small>/100</small>
+                    <p class="score-message">
+                        ATS readiness based on
+                        {{ analysis.word_count }} extracted words.
+                    </p>
                 </div>
 
-                <p class="score-message">
-                    ATS readiness based on {{ analysis.word_count }} extracted words.
-                </p>
+                <div class="analysis-card job-match-card">
+                    <h3>Match With a Job Description</h3>
+
+                    <p class="job-match-description">
+                        Paste a target job description to compare its required
+                        technical skills with your resume.
+                    </p>
+
+                    <form
+                        action="{{ url_for('results_page', filename=filename) }}"
+                        method="POST"
+                        class="job-description-form"
+                    >
+                        <label for="job-description">
+                            Target Job Description
+                        </label>
+
+                        <textarea
+                            id="job-description"
+                            name="job_description"
+                            rows="9"
+                            placeholder="Paste the complete job description here..."
+                            required
+                        >{{ job_description }}</textarea>
+
+                        <button type="submit">
+                            Calculate Skill Match
+                        </button>
+                    </form>
+                </div>
+
+                {% if job_match %}
+                    <div class="analysis-card job-match-results">
+                        <h3>Skill Match Result</h3>
+
+                        {% if job_match.skill_match_score is not none %}
+                            <p class="job-match-score">
+                                {{ job_match.skill_match_score }}%
+                            </p>
+
+                            <p>
+                                {{ job_match.matched_skills | length }}
+                                of
+                                {{ job_match.required_skills | length }}
+                                detected skills matched.
+                            </p>
+
+                            <h4>Matched Skills</h4>
+
+                            {% if job_match.matched_skills %}
+                                <div
+                                    class="skill-result-tags matched-skill-tags"
+                                >
+                                    {% for skill in job_match.matched_skills %}
+                                        <span>{{ skill }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>
+                                    No required technical skills were matched.
+                                </p>
+                            {% endif %}
+
+                            <h4>Missing Skills</h4>
+
+                            {% if job_match.missing_skills %}
+                                <div
+                                    class="skill-result-tags missing-skill-tags"
+                                >
+                                    {% for skill in job_match.missing_skills %}
+                                        <span>{{ skill }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>
+                                    All detected technical skills were found
+                                    in your resume.
+                                </p>
+                            {% endif %}
+
+                        {% else %}
+                            <p>
+                                No supported technical skills were detected in
+                                this job description. Try pasting a more
+                                detailed technical job description.
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            </section>
+
+            <section class="resume-preview-section">
+                <div class="section-heading">
+                    <h2>Resume Preview</h2>
+                    <span>Uploaded Resume</span>
+                </div>
+
+                <div class="pdf-preview-container">
+                    {% if file_extension == "pdf" %}
+                        <iframe
+                            src="{{ file_url }}"
+                            title="Uploaded resume preview"
+                            class="pdf-preview"
+                        ></iframe>
+
+                    {% elif file_extension == "docx" %}
+                        <div class="docx-preview-message">
+                            <h3>DOCX Resume Uploaded Successfully</h3>
+
+                            <p>
+                                Your resume has been uploaded successfully.
+                                The text has been extracted for ATS analysis.
+                                A preview for DOCX files will be added soon.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+
+        </div>
+
+        <section
+            class="analysis-details-grid"
+            aria-label="Detailed resume analysis"
+        >
+            <div class="analysis-card">
+                <h3>Strengths</h3>
+
+                {% if analysis.strengths %}
+                    <ul class="analysis-list">
+                        {% for strength in analysis.strengths %}
+                            <li>{{ strength }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>
+                        No strengths were detected by the current checks.
+                    </p>
+                {% endif %}
             </div>
-            <div class="analysis-card">
-    <h3>Strengths</h3>
-
-    {% if analysis.strengths %}
-        <ul class="analysis-list">
-            {% for strength in analysis.strengths %}
-                <li>{{ strength }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No strengths were detected by the current checks.</p>
-    {% endif %}
-</div>
-
-            
-           <div class="analysis-card">
-    <h3>Areas to Improve</h3>
-
-    {% if analysis.improvements %}
-        <ul class="analysis-list">
-            {% for improvement in analysis.improvements %}
-                <li>{{ improvement }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No major improvements were detected.</p>
-    {% endif %}
-</div>
 
             <div class="analysis-card">
-    <h3>Missing Sections</h3>
+                <h3>Areas to Improve</h3>
 
-    {% if analysis.missing_sections %}
-        <ul class="analysis-list">
-            {% for section in analysis.missing_sections %}
-                <li>{{ section }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>All essential resume sections were detected.</p>
-    {% endif %}
-</div>
+                {% if analysis.improvements %}
+                    <ul class="analysis-list">
+                        {% for improvement in analysis.improvements %}
+                            <li>{{ improvement }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No major improvements were detected.</p>
+                {% endif %}
+            </div>
+
+            <div class="analysis-card">
+                <h3>Missing Sections</h3>
+
+                {% if analysis.missing_sections %}
+                    <ul class="analysis-list">
+                        {% for section in analysis.missing_sections %}
+                            <li>{{ section }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>All essential resume sections were detected.</p>
+                {% endif %}
+            </div>
 
             <div class="analysis-card">
                 <h3>AI Suggestions</h3>
@@ -142,7 +240,6 @@
                     Personalized AI suggestions will appear here.
                 </p>
             </div>
-
         </section>
 
     </main>

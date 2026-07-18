@@ -11,6 +11,94 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = os.path.join("static", "uploads")
 ALLOWED_EXTENSIONS = {"pdf", "docx"}
+SKILL_ALIASES = {
+    "Python": ["python"],
+    "Java": ["java"],
+    "JavaScript": ["javascript", "js"],
+    "TypeScript": ["typescript"],
+    "C": ["c programming"],
+    "C++": ["c++", "cpp"],
+    "C#": ["c#", "c sharp"],
+    "HTML": ["html", "html5"],
+    "CSS": ["css", "css3"],
+    "React": ["react", "react.js", "reactjs"],
+    "Angular": ["angular", "angular.js"],
+    "Vue": ["vue", "vue.js", "vuejs"],
+    "Node.js": ["node.js", "nodejs"],
+    "Flask": ["flask"],
+    "Django": ["django"],
+    "FastAPI": ["fastapi"],
+    "Spring Boot": ["spring boot"],
+    "SQL": ["sql"],
+    "MySQL": ["mysql"],
+    "PostgreSQL": ["postgresql", "postgres"],
+    "MongoDB": ["mongodb", "mongo db"],
+    "Redis": ["redis"],
+    "Git": ["git"],
+    "GitHub": ["github"],
+    "Docker": ["docker"],
+    "Kubernetes": ["kubernetes", "k8s"],
+    "AWS": ["aws", "amazon web services"],
+    "Azure": ["azure", "microsoft azure"],
+    "Google Cloud": [
+        "google cloud",
+        "google cloud platform",
+        "gcp"
+    ],
+    "Linux": ["linux"],
+    "REST API": ["rest api", "restful api", "restful services"],
+    "Machine Learning": ["machine learning"],
+    "Deep Learning": ["deep learning"],
+    "NLP": ["natural language processing", "nlp"],
+    "Data Structures": ["data structures", "dsa"],
+    "Algorithms": ["algorithms"],
+    "Pandas": ["pandas"],
+    "NumPy": ["numpy"],
+    "Scikit-learn": ["scikit-learn", "sklearn"],
+    "TensorFlow": ["tensorflow"],
+    "PyTorch": ["pytorch"],
+    "Power BI": ["power bi"],
+    "Tableau": ["tableau"],
+    "Excel": ["excel", "microsoft excel"],
+    "Spark": ["apache spark", "spark"],
+    "Hadoop": ["hadoop"],
+    "DevOps": ["devops"],
+    "CI/CD": ["ci/cd", "continuous integration"],
+    "Agile": ["agile", "scrum"],
+    "JAX": ["jax"],
+"Neural Networks": [
+    "neural network",
+    "neural networks"
+],
+"Attention Mechanisms": [
+    "attention mechanism",
+    "attention mechanisms"
+],
+"Reinforcement Learning": [
+    "reinforcement learning"
+],
+"RLHF": [
+    "rlhf",
+    "reinforcement learning from human feedback"
+],
+"Large Language Models": [
+    "large language model",
+    "large language models",
+    "llm",
+    "llms"
+],
+"Transformers": [
+    "transformer model",
+    "transformer models",
+    "transformer architecture",
+    "transformer architectures"
+],
+"CUDA": ["cuda"],
+"Hugging Face": [
+    "hugging face",
+    "huggingface"
+],
+}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
@@ -58,6 +146,54 @@ def extract_text_from_docx(docx_path):
             paragraphs.append(paragraph.text)
 
     return "\n".join(paragraphs)
+
+def extract_known_skills(text):
+    """
+    Detect known technical skills and return standardized names.
+    """
+    normalized_text = text.lower()
+    detected_skills = set()
+
+    for skill_name, aliases in SKILL_ALIASES.items():
+        for alias in aliases:
+            pattern = rf"(?<!\w){re.escape(alias)}(?!\w)"
+
+            if re.search(pattern, normalized_text):
+                detected_skills.add(skill_name)
+                break
+
+    return detected_skills
+
+def analyze_job_match(resume_text, job_description):
+    """
+    Compare skills in the resume with skills detected in
+    the target job description.
+    """
+    resume_skills = extract_known_skills(resume_text)
+    required_skills = extract_known_skills(job_description)
+
+    matched_skills = sorted(
+        resume_skills.intersection(required_skills)
+    )
+
+    missing_skills = sorted(
+        required_skills.difference(resume_skills)
+    )
+
+    if required_skills:
+        skill_match_score = round(
+            len(matched_skills) / len(required_skills) * 100
+        )
+    else:
+        skill_match_score = None
+
+    return {
+        "skill_match_score": skill_match_score,
+        "matched_skills": matched_skills,
+        "missing_skills": missing_skills,
+        "required_skills": sorted(required_skills),
+        "resume_skills": sorted(resume_skills)
+    }
 def analyze_resume_text(resume_text):
     """
     Analyze extracted resume text using explainable,
@@ -302,8 +438,10 @@ def upload_resume():
         )
     )
 
-
-@app.route("/results/<filename>")
+@app.route(
+    "/results/<filename>",
+    methods=["GET", "POST"]
+)
 def results_page(filename):
     saved_file_path = os.path.join(
         app.config["UPLOAD_FOLDER"],
@@ -326,6 +464,21 @@ def results_page(filename):
 
     analysis = analyze_resume_text(extracted_text)
 
+    job_description = ""
+    job_match = None
+
+    if request.method == "POST":
+        job_description = request.form.get(
+            "job_description",
+            ""
+        ).strip()
+
+        if job_description:
+            job_match = analyze_job_match(
+                extracted_text,
+                job_description
+            )
+
     file_url = url_for(
         "static",
         filename=f"uploads/{filename}"
@@ -336,8 +489,10 @@ def results_page(filename):
         file_url=file_url,
         filename=filename,
         file_extension=file_extension,
-        analysis=analysis
+        analysis=analysis,
+        job_description=job_description,
+        job_match=job_match
     )
 
 if __name__ == "__main__":
-    app.run(debug=True,port=5001)
+    app.run(debug=True, port=5001)
