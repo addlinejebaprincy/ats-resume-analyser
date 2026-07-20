@@ -1,0 +1,6 @@
+Flask
+PyMuPDF
+python-docx
+google-genai
+python-dotenv
+pydantic
