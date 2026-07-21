@@ -28,7 +28,7 @@
     <header class="results-header">
         <div>
             <h1>Resume Analysis</h1>
-            <p>Your resume preview and ATS insights</p>
+            <p>Your ATS readiness and personalized resume insights</p>
         </div>
 
         <a
@@ -72,6 +72,7 @@
                     </p>
 
                     <form
+                        id="analysis-form"
                         action="{{ url_for('results_page', filename=filename) }}"
                         method="POST"
                         class="job-description-form"
@@ -88,7 +89,11 @@
                             required
                         >{{ job_description }}</textarea>
 
-                        <button type="submit">
+                        <button
+                            type="submit"
+                            name="action"
+                            value="job_match"
+                        >
                             Calculate Skill Match
                         </button>
                     </form>
@@ -155,34 +160,6 @@
 
             </section>
 
-            <section class="resume-preview-section">
-                <div class="section-heading">
-                    <h2>Resume Preview</h2>
-                    <span>Uploaded Resume</span>
-                </div>
-
-                <div class="pdf-preview-container">
-                    {% if file_extension == "pdf" %}
-                        <iframe
-                            src="{{ file_url }}"
-                            title="Uploaded resume preview"
-                            class="pdf-preview"
-                        ></iframe>
-
-                    {% elif file_extension == "docx" %}
-                        <div class="docx-preview-message">
-                            <h3>DOCX Resume Uploaded Successfully</h3>
-
-                            <p>
-                                Your resume has been uploaded successfully.
-                                The text has been extracted for ATS analysis.
-                                A preview for DOCX files will be added soon.
-                            </p>
-                        </div>
-                    {% endif %}
-                </div>
-            </section>
-
         </div>
 
         <section
@@ -233,16 +210,126 @@
                 {% endif %}
             </div>
 
-            <div class="analysis-card">
+                        <div class="analysis-card ai-analysis-card">
                 <h3>AI Suggestions</h3>
 
-                <p>
-                    Personalized AI suggestions will appear here.
-                </p>
+                {% if ai_error %}
+                    <p class="ai-error-message">
+                        {{ ai_error }}
+                    </p>
+
+                                {% elif ai_analysis %}
+                    <h4>Professional Assessment</h4>
+
+                    <p>
+                        {{ ai_analysis.professional_summary }}
+                    </p>
+
+                    <h4>AI-Detected Strengths</h4>
+
+                    {% if ai_analysis.strengths %}
+                        <ul class="analysis-list">
+                            {% for strength in ai_analysis.strengths %}
+                                <li>{{ strength }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No AI strengths were returned.</p>
+                    {% endif %}
+
+                    <h4>Priority Improvements</h4>
+
+                    {% if ai_analysis.priority_improvements %}
+                        {% for improvement in
+                            ai_analysis.priority_improvements
+                        %}
+                            <div class="ai-feedback-item">
+                                <h5>{{ improvement.title }}</h5>
+
+                                <p>{{ improvement.explanation }}</p>
+
+                                <p>
+                                    <strong>Recommendation:</strong>
+                                    {{ improvement.recommendation }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No priority improvements were returned.</p>
+                    {% endif %}
+
+                    <h4>Project Feedback</h4>
+
+                    {% if ai_analysis.project_feedback %}
+                        {% for project in ai_analysis.project_feedback %}
+                            <div class="ai-feedback-item">
+                                <h5>{{ project.project_name }}</h5>
+
+                                <p>{{ project.assessment }}</p>
+
+                                <p>
+                                    <strong>Suggested bullet:</strong>
+                                    {{ project.improved_bullet }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>
+                            No projects were available for detailed feedback.
+                        </p>
+                    {% endif %}
+
+                    <h4>Job Alignment</h4>
+
+                    <p>
+                        {{ ai_analysis.job_alignment }}
+                    </p>
+
+                {% else %}
+                    <p>
+                        Generate detailed feedback about your resume using
+                        Gemini. AI feedback is advisory and may not always
+                        be available.
+                    </p>
+
+                    <button
+                        type="submit"
+                        id=""ai-analysis-button
+                        name="action"
+                        value="ai_analysis"
+                        form="analysis-form"
+                        formnovalidate
+                        class="ai-analysis-button"
+                    >
+                        Generate AI Analysis
+                    </button>
+                {% endif %}
             </div>
         </section>
 
     </main>
+    <script>
+    const analysisForm = document.getElementById("analysis-form");
+    const aiButton = document.getElementById("ai-analysis-button");
+
+    if (analysisForm && aiButton) {
+        analysisForm.addEventListener("submit", function (event) {
+            if (event.submitter === aiButton) {
+                const actionInput = document.createElement("input");
+
+                actionInput.type = "hidden";
+                actionInput.name = "action";
+                actionInput.value = "ai_analysis";
+
+                analysisForm.appendChild(actionInput);
+
+                aiButton.disabled = true;
+                aiButton.textContent = "Generating analysis…";
+            }
+        });
+    }
+</script>
+
 
 </body>
 </html>

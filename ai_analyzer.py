@@ -7,6 +7,8 @@ from pydantic import BaseModel, Field
 
 
 load_dotenv()
+class AIAnalysisUnavailableError(Exception):
+    """Raised when Gemini analysis cannot be completed safely."""
 
 
 class Improvement(BaseModel):
@@ -27,7 +29,8 @@ class ProjectFeedback(BaseModel):
         description="Evaluation of how effectively the project is described."
     )
     improved_bullet: str = Field(
-        description="An improved achievement-focused project bullet."
+        description="An improved project bullet using only facts explicitly stated "
+    "in the resume. Never add unsupported tools, metrics, or features."
     )
 
 
@@ -69,7 +72,10 @@ You are an experienced resume reviewer and technical recruiter.
 
 Analyze the supplied resume carefully. Base every observation only on the
 information present in the resume. Do not invent experience, qualifications,
-metrics, projects, or skills.
+metrics, projects, or skills.When rewriting a project bullet, use only technologies, features, and
+results explicitly stated in the resume. Never add missing job-description
+skills to a project bullet. If there is insufficient project information,
+provide a cautious rewrite without inventing details.
 
 Provide:
 1. A detailed professional assessment.
@@ -88,10 +94,31 @@ JOB DESCRIPTION:
 {job_context}
 """
 
-    client = genai.Client(api_key=api_key)
+    try:
+        client = genai.Client(api_key=api_key)
+
+        interaction = client.interactions.create(
+            model="gemini-3.1-flash-lite",
+            input=prompt,
+            store=False,
+            response_format={
+                "type": "text",
+                "mime_type": "application/json",
+                "schema": AIResumeAnalysis.model_json_schema(),
+            },
+        )
+
+        return AIResumeAnalysis.model_validate_json(
+            interaction.output_text
+        )
+
+    except Exception as error:
+        raise AIAnalysisUnavailableError(
+            "Detailed AI analysis is temporarily unavailable."
+        ) from error
 
     interaction = client.interactions.create(
-        model="gemini-3.5-flash",
+        model="gemini-3.1-flash-lite",
         input=prompt,
         store=False,
         response_format={

@@ -2311,8 +2311,8 @@ body{
 
 .results-top-layout {
     display: grid;
-    grid-template-areas: "preview summary";
-    grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+    grid-template-areas: "summary";
+    grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
     gap: 30px;
 }
@@ -2523,21 +2523,8 @@ body{
         width: min(calc(100% - 40px), 780px);
     }
 
-    .results-top-layout {
-        grid-template-areas:
-            "summary"
-            "preview";
-        grid-template-columns: 1fr;
-    }
-
     .analysis-details-grid {
         grid-template-columns: 1fr;
-    }
-
-    .pdf-preview-container,
-    .pdf-preview,
-    .docx-preview-message {
-        min-height: 680px;
     }
 }
 
@@ -2741,4 +2728,83 @@ body{
     color: #b91c1c;
     background: #fee2e2;
     border: 1px solid #fecaca;
+}
+/* =======================================================
+   AI ANALYSIS
+======================================================= */
+
+.ai-analysis-card {
+    grid-column: 1 / -1;
+}
+
+.ai-analysis-card h4 {
+    margin: 26px 0 12px;
+    color: #1e3a8a;
+    font-size: 1rem;
+}
+
+.ai-analysis-card h4:first-of-type {
+    margin-top: 0;
+}
+
+.ai-feedback-item {
+    margin-top: 14px;
+    padding: 18px;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    background: #f8fbff;
+}
+
+.ai-feedback-item h5 {
+    margin-bottom: 9px;
+    color: #172554;
+    font-size: 0.95rem;
+}
+
+.ai-feedback-item p {
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.ai-feedback-item p + p {
+    margin-top: 10px;
+}
+
+.ai-analysis-button {
+    display: inline-flex;
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px 18px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    background: #7c3aed;
+    box-shadow: 0 9px 20px rgba(124, 58, 237, 0.2);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.ai-analysis-button:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+}
+
+.ai-analysis-button:active {
+    transform: translateY(0);
+}
+
+.analysis-card > .ai-error-message {
+    padding: 14px 16px;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    color: #b91c1c;
+    background: #fef2f2;
 }

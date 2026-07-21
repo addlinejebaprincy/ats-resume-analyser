@@ -6,6 +6,10 @@ import fitz
 from docx import Document
 from flask import Flask, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
+from ai_analyzer import (
+    AIAnalysisUnavailableError,
+    analyze_resume_with_ai,
+)
 
 app = Flask(__name__)
 
@@ -466,18 +470,32 @@ def results_page(filename):
 
     job_description = ""
     job_match = None
+    ai_analysis = None
+    ai_error = None
 
     if request.method == "POST":
+        action = request.form.get("action", "")
+
         job_description = request.form.get(
             "job_description",
             ""
         ).strip()
 
-        if job_description:
+        if action == "job_match" and job_description:
             job_match = analyze_job_match(
                 extracted_text,
                 job_description
             )
+
+        elif action == "ai_analysis":
+            try:
+                ai_analysis = analyze_resume_with_ai(
+                    extracted_text,
+                    job_description
+                )
+
+            except AIAnalysisUnavailableError as error:
+                ai_error = str(error)
 
     file_url = url_for(
         "static",
@@ -491,7 +509,9 @@ def results_page(filename):
         file_extension=file_extension,
         analysis=analysis,
         job_description=job_description,
-        job_match=job_match
+        job_match=job_match,
+        ai_analysis=ai_analysis,
+        ai_error=ai_error
     )
 
 if __name__ == "__main__":
