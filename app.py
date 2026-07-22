@@ -497,14 +497,8 @@ def results_page(filename):
             except AIAnalysisUnavailableError as error:
                 ai_error = str(error)
 
-    file_url = url_for(
-        "static",
-        filename=f"uploads/{filename}"
-    )
-
     return render_template(
         "results.html",
-        file_url=file_url,
         filename=filename,
         file_extension=file_extension,
         analysis=analysis,
